@@ -29,7 +29,7 @@ Admin can signup any user as a 3 role (Admin,Support,Employee) like this:
 ```
 you must login first to get token , after that :
 
-Address : http://localhost/User/Signup
+Address : http://localhost/user/signup
 remember set token to x-auth header
 fill body of requset like this :
                    { "name" : "Admin" ,
@@ -41,7 +41,7 @@ fill body of requset like this :
 #### /user/login     POST
 Any user mst be login before using of sevices
 ```
-Address : http://localhost/User/Login
+Address : http://localhost/user/login
 remember set token to x-auth header
 fill body of requset like this :
                    { 
@@ -52,7 +52,7 @@ fill body of requset like this :
 Admins and supports can access to list of user specify by role , but supports can access only support list
 ```
 you can send role with QueryParams
-Address : http://localhost/User/List?role=Admin
+Address : http://localhost/user/list?role=Admin
 remember set token to x-auth header
 ```
 
