@@ -48,7 +48,7 @@ fill body of requset like this :
                      "email" : "Admin@example.com",
 	          "password" : "123456",}
 ```
-#### /user/iist        GET
+#### /user/list        GET
 Admins and supports can access to list of user specify by role , but supports can access only support list
 ```
 you can send role with QueryParams
@@ -61,4 +61,4 @@ remember set token to x-auth header
 
 
 
-## ©Mostafa Pahlevani & Ahmad Dehestani
+### Mostafa Pahlevani & Ahmad Dehestani
