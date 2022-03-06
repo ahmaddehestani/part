@@ -34,6 +34,9 @@ module.exports.equipmentsListtoDB = async (parameter) => {
 		if (!parameter) {
 			command = `SELECT * FROM public.equipment;`;
 			params = null;
+		} else if (parameter.email) {
+			command = `SELECT * FROM public.equipment WHERE equipment.email = $1;`;
+			params = [ parameter.email ];
 		} else if (parameter.ownership == 'false') {
 			command = `SELECT * FROM public.equipment WHERE equipment.email IS NULL;`;
 			params = null;
