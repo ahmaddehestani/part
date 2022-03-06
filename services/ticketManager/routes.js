@@ -1,6 +1,6 @@
 const ticketController = require('./controller/ticketController');
-const dataparser = require('rest-data-parser');
-const schemavalidator = require('rest-schemavalidator');
+const dataParser = require('rest-data-parser');
+const schemaValidator = require('rest-schemavalidator');
 const ticketSchema = require('../../validation/ticketSchema');
 const commentSchema = require('../../validation/commentSchema');
 const assignTicketSchema = require('../../validation/assignTicketSchema');
@@ -10,27 +10,27 @@ const routes = {
 	'/tickets': {
 		GET: {
 			function: ticketController.viewTickets,
-			middlewares: [ dataparser, authorization(null) ]
+			middlewares: [ dataParser, authorization(null) ]
 		},
 		POST: {
 			function: ticketController.addTicket,
-			middlewares: [ dataparser, authorization('Employee'), schemavalidator(ticketSchema) ]
+			middlewares: [ dataParser, authorization('Employee'), schemaValidator(ticketSchema) ]
 		}
 	},
 	'/tickets/assign': {
 		POST: {
 			function: ticketController.AssignmentTickets,
-			middlewares: [ dataparser, authorization('Support'), schemavalidator(assignTicketSchema) ]
+			middlewares: [ dataParser, authorization('Support'), schemaValidator(assignTicketSchema) ]
 		}
 	},
 	'/tickets/comment': {
 		GET: {
 			function: ticketController.viewComment,
-			middlewares: [ dataparser, authorization(null) ]
+			middlewares: [ dataParser, authorization(null) ]
 		},
 		POST: {
 			function: ticketController.writeComment,
-			middlewares: [ dataparser, authorization(null), schemavalidator(commentSchema) ]
+			middlewares: [ dataParser, authorization(null), schemaValidator(commentSchema) ]
 		}
 	}
 };
