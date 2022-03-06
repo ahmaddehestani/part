@@ -80,7 +80,7 @@ const CreateTables = async () => {
 	state text NOT NULL,
 	creator text NOT NULL,
 	assignedto text,
-	"EquipmentID" int NOT NULL,
+	"EquipmentID" int ,
 	PRIMARY KEY ("TicketID"),
 	CONSTRAINT "EquipmentID" FOREIGN KEY ("EquipmentID")
 	    REFERENCES public.equipment ("EquipmentID") MATCH SIMPLE

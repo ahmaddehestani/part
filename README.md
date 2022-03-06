@@ -55,7 +55,7 @@ you can send role with QueryParams
 Address : http://localhost/user/list?role=Admin
 remember set token to x-auth header
 ```
-### (EquipmentManager)  :
+### EquipmentManager  :
 
 #### /equipments     POST
 Supports can add equipments to database
@@ -89,6 +89,61 @@ fill body of requset like this :
                       "email" : "Employee@example.com"
 	       }
 ```
+
+### TicketManager  :
+
+#### /tickets    POST
+Employees can send ticket about their equipments 
+```
+Address : http://localhost/tickets
+remember set token to x-auth header
+fill body of requset like this :
+                   {
+	          "title" : "Modem failure"
+                      "body" : "hello dear ....."
+                      "equipmentID" : "2"  
+	       }
+```
+#### /tickets    GET
+Employees can view thier thickets 
+Supports can view thier thickets and unassiged tickets (based on period of time , state , :Optional)
+note : employees only access to their tickets
+```
+you can send email with QueryParams
+Address : http://localhost/tickets?state=Open&from=1646328465500&to=1646328000000
+Address : http://localhost/tickets?unassigned=true
+remember set token to x-auth header
+```
+#### /tickets/assign   POST
+Supports can assigned ticket to themselves
+```
+Address : http://localhost/tickets/assign
+remember set token to x-auth header
+fill body of requset like this :
+                   {
+                      "ticketID" : "2"  
+	       }
+```
+#### /tickets/comment    POST
+Employee and Support can write a comment on specific ticket with Open state
+```
+Address : http://localhost/tickets/comment
+remember set token to x-auth header
+fill body of requset like this :
+                   {
+                      "ticketID" : "2"  
+                      "body" : "Hello Dear ....."
+	       }
+```
+#### /tickets/comment    GET
+Employee and Support can view a comment on specific ticket
+```
+you can send email with QueryParams
+Address : http://localhost/tickets/comment?ticketID=3
+remember set token to x-auth header
+
+```
+
 
 
 
