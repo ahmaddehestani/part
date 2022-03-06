@@ -22,7 +22,7 @@ node index.js
 ## Examples
 we have a several example about any of services to make you feel more comfortable to use :
 
-### UserManager (3 route) :
+### UserManager  :
 
 #### /user/signup   POST
 Admin can signup any user as a 3 role (Admin,Support,Employee) like this:
@@ -55,7 +55,40 @@ you can send role with QueryParams
 Address : http://localhost/user/list?role=Admin
 remember set token to x-auth header
 ```
+### (EquipmentManager)  :
 
+#### /equipments     POST
+Supports can add equipments to database
+```
+Address : http://localhost/equipments
+remember set token to x-auth header
+fill body of requset like this :
+                   {
+                      "name" : "modem"
+                     "email" : "Employee@example.com"
+	       }
+note : email is optional in this stage , if you add , equipments assign to employee at the same time insert to database
+```
+#### /equipments     GET
+Support can view list of equipments based on employee , assigned or unassigned
+```
+you can send email with QueryParams
+Address : http://localhost/equipments?email=Employee@example.com
+Address : http://localhost/equipments?ownership=false
+Address : http://localhost/equipments?ownership=true
+remember set token to x-auth header
+```
+#### /equipments/selectOwner    POST
+Support can assign equipment to employee 
+```
+Address : http://localhost/equipments/selectOwner
+remember set token to x-auth header
+fill body of requset like this :
+                   {
+                      "equipmentID" : "2"
+                      "email" : "Employee@example.com"
+	       }
+```
 
 
 

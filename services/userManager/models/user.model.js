@@ -1,8 +1,8 @@
 const executeQuery = require('../../../modules/postgresql-connector');
 
-const insertUser = async (user) => {
+module.exports.insertUser = async (user) => {
 	const command = `INSERT INTO public.User(name,email,role,password) VALUES($1,$2,$3,$4);`;
-	const params = [user.name, user.email, user.role, user.password];
+	const params = [ user.name, user.email, user.role, user.password ];
 	try {
 		await executeQuery(command, params);
 		return true;
@@ -11,9 +11,9 @@ const insertUser = async (user) => {
 	}
 };
 
-const getUser = async (email) => {
+module.exports.getUser = async (email) => {
 	const command = `SELECT * FROM public.User WHERE email=$1;`;
-	const params = [email];
+	const params = [ email ];
 	try {
 		const { rows } = await executeQuery(command, params);
 		return rows[0];
@@ -22,9 +22,9 @@ const getUser = async (email) => {
 	}
 };
 
-const updateUser = async (user) => {
+module.exports.updateUser = async (user) => {
 	const command = `UPDATE public.User SET token = $2 WHERE email=$1;`;
-	const params = [user.email, user.token];
+	const params = [ user.email, user.token ];
 	try {
 		await executeQuery(command, params);
 		return true;
@@ -33,11 +33,11 @@ const updateUser = async (user) => {
 	}
 };
 
-const usersList = async (role) => {
+module.exports.usersList = async (role) => {
 	let command, params;
 	if (role) {
 		command = `SELECT name,email,role FROM public.User WHERE role=$1;`;
-		params = [role];
+		params = [ role ];
 	} else {
 		command = `SELECT name,email,role FROM public.User;`;
 		params = null;
@@ -48,11 +48,4 @@ const usersList = async (role) => {
 	} catch (error) {
 		throw error.message;
 	}
-};
-
-module.exports = {
-	insertUser,
-	getUser,
-	usersList,
-	updateUser
 };

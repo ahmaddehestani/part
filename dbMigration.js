@@ -41,7 +41,6 @@ const CreateTables = async () => {
 		email text UNIQUE NOT NULL,
 		role text NOT NULL,
 		password text NOT NULL,
-		token text ,
 		PRIMARY KEY (UserID)
 		);
 		end
