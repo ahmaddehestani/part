@@ -22,21 +22,9 @@ module.exports.addTickettoDB = async (user, req) => {
 };
 
 module.exports.viewTicketsDB = async (user, req) => {
-	let command, params;
 	try {
-		if (user.role == 'Employee') {
-			command = `SELECT * FROM public.ticket WHERE ticket.creator = $1`;
-			params = [ user.email ];
-		} else if (user.role == 'Support') {
-			if (req && req.unassigned) {
-				command = `SELECT * FROM public.ticket WHERE ticket.assignedto is NULL `;
-				params = null;
-			} else {
-				command = `SELECT * FROM public.ticket WHERE ticket.assignedto = $1 `;
-				params = [ user.email ];
-			}
-		}
-		const { rows } = await executeQuery(command, params);
+		const query = checkparameters(user, req);
+		const { rows } = await executeQuery(query.command, query.params);
 		let result = filterTicket(rows, req);
 		return result;
 	} catch (error) {
@@ -67,17 +55,15 @@ module.exports.writeCommentDB = async (user, req) => {
 	command = `SELECT * FROM public.ticket WHERE ticket.state=$1 AND ticket."TicketID"=$2 AND (ticket.creator=$3 OR ticket.assignedto=$3) `;
 	params = [ state, req.ticketID, user.email ];
 	const { rows } = await executeQuery(command, params);
-	console.log(rows);
 	try {
 		if (rows[0]) {
 			let date = new Date();
 			let createTime = date.getTime();
-
 			command = `INSERT INTO public.comment(body,"TicketID",creator,createTime) VALUES($1,$2,$3,$4);`;
 			params = [ req.body, req.ticketID, user.email, createTime ];
 			await executeQuery(command, params);
 			return true;
-		}
+		} else return false;
 	} catch (error) {
 		throw error.message;
 	}
@@ -95,6 +81,22 @@ module.exports.viewCommentDB = async (req) => {
 };
 
 //Utils
+const checkparameters = (user, req) => {
+	let query = { command, params };
+	if (user.role == 'Employee') {
+		query.command = `SELECT * FROM public.ticket WHERE ticket.creator = $1`;
+		query.params = [ user.email ];
+	} else if (user.role == 'Support') {
+		if (req && req.unassigned) {
+			query.command = `SELECT * FROM public.ticket WHERE ticket.assignedto is NULL `;
+			query.params = null;
+		} else {
+			query.command = `SELECT * FROM public.ticket WHERE ticket.assignedto = $1 `;
+			query.params = [ user.email ];
+		}
+	}
+	return query;
+};
 const filterTicket = (tickets, req) => {
 	let temp = tickets;
 	if (req && req.state) {
@@ -111,12 +113,13 @@ const filterbyState = (array, state) => {
 
 const filterbyTime = (array, from, to) => {
 	if (from && to) {
-		let result = array.filter(
-			(value, index, rows) => array[index].createTime >= from && array[index].createTime <= to
-		);
+		let result = array.filter(filterbyTimeTowParam);
 		return result;
 	} else if (from && !to) {
-		let result = array.filter((value, index, rows) => array[index].createTime >= from);
+		let result = array.filter(filterbyTimeOneParam);
 		return result;
 	} else return array;
 };
+
+const filterbyTimeTowParam = (value, index, rows) => array[index].createTime >= from && array[index].createTime <= to;
+const filterbyTimeOneParam = (value, index, rows) => array[index].createTime >= from;

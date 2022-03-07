@@ -41,7 +41,7 @@ module.exports.AssignmentTickets = async (req, res) => {
 module.exports.writeComment = async (req, res) => {
 	const user = req.session;
 	try {
-		if (user.role == ('Support' || 'Employee')) {
+		if (user.role == 'Support' || user.role == 'Employee') {
 			const result = await writeCommentDB(user, req.data);
 			return sendResponse(res, 200, result);
 		}
@@ -53,7 +53,7 @@ module.exports.writeComment = async (req, res) => {
 module.exports.viewComment = async (req, res) => {
 	const user = req.session;
 	try {
-		if (user.role == ('Support' || 'Employee')) {
+		if (user.role == 'Support' || user.role == 'Employee') {
 			const result = await viewCommentDB(req.data);
 			return sendResponse(res, 200, result);
 		}

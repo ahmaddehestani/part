@@ -29,23 +29,9 @@ module.exports.selectOwnertoDB = async (equipment) => {
 	}
 };
 module.exports.equipmentsListtoDB = async (parameter) => {
-	let command, params;
 	try {
-		if (!parameter) {
-			command = `SELECT * FROM public.equipment;`;
-			params = null;
-		} else if (parameter.email) {
-			command = `SELECT * FROM public.equipment WHERE equipment.email = $1;`;
-			params = [ parameter.email ];
-		} else if (parameter.ownership == 'false') {
-			command = `SELECT * FROM public.equipment WHERE equipment.email IS NULL;`;
-			params = null;
-		} else if (parameter.ownership == 'true') {
-			command = `SELECT equipment."EquipmentID" , equipment.name AS EquipmentName, "user".email , "user".name AS UserName FROM public.equipment
-					   INNER JOIN public.user ON equipment.email = "user".email;`;
-			params = null;
-		}
-		const { rows } = await executeQuery(command, params);
+		const query = checkparameters(parameter);
+		const { rows } = await executeQuery(query.command, query.params);
 		return rows;
 	} catch (error) {
 		throw error.message;
@@ -60,4 +46,22 @@ const isExistEmployee = async (email) => {
 	if (rows[0] && rows[0].role == 'Employee') {
 		return true;
 	} else return false;
+};
+const checkparameters = (parameter) => {
+	let query = { command, params };
+	if (!parameter) {
+		query.command = `SELECT * FROM public.equipment;`;
+		query.params = null;
+	} else if (parameter.email) {
+		query.command = `SELECT * FROM public.equipment WHERE equipment.email = $1;`;
+		query.params = [ parameter.email ];
+	} else if (parameter.ownership == 'false') {
+		query.command = `SELECT * FROM public.equipment WHERE equipment.email IS NULL;`;
+		query.params = null;
+	} else if (parameter.ownership == 'true') {
+		query.command = `SELECT equipment."EquipmentID" , equipment.name AS EquipmentName, "user".email , "user".name AS UserName FROM public.equipment
+				   INNER JOIN public.user ON equipment.email = "user".email;`;
+		query.params = null;
+	}
+	return query;
 };
