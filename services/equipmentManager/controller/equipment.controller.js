@@ -3,6 +3,7 @@ const sendResponse = require('../../../middleware/sendResponse');
 
 /**
  * This function add equipment to the database
+ * @async
  * @param {*} req 
  * @param {*} res 
  * @returns {object} send response containing the object with a message
@@ -19,6 +20,7 @@ module.exports.addEquipment = async (req, res) => {
 
 /**
  * This function assign equipment to specific employee
+ * @async
  * @param {*} req 
  * @param {*} res 
  * @returns {object} send response containing the object with a message
@@ -34,7 +36,8 @@ module.exports.selectOwner = async (req, res) => {
 };
 
 /**
- * This function send list of equipments
+ * This function send list of equipments]
+ * @async
  * @param {*} req 
  * @param {*} res 
  * @returns {object} send response containing the object of equipments list

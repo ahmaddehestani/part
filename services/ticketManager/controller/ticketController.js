@@ -7,6 +7,13 @@ const {
 } = require('../models/ticket.model');
 const sendResponse = require('../../../middleware/sendResponse');
 
+/**
+ * This function add ticket to the database
+ * @async
+ * @param {*} req 
+ * @param {*} res 
+ * @returns {object} send response containing the object with a message
+ */
 module.exports.addTicket = async (req, res) => {
 	const user = req.session;
 	try {
@@ -17,6 +24,13 @@ module.exports.addTicket = async (req, res) => {
 	}
 };
 
+/**
+ * This function show list of ticket based on queryparamters 
+ * @async
+ * @param {*} req 
+ * @param {*} res 
+ * @returns {object} send response containing the object of tickets
+ */
 module.exports.viewTickets = async (req, res) => {
 	let result;
 	const user = req.session;
@@ -28,6 +42,13 @@ module.exports.viewTickets = async (req, res) => {
 	}
 };
 
+/**
+ * This function assign ticket to support
+ * @async
+ * @param {*} req 
+ * @param {*} res 
+ * @returns {object} send response containing the object with a message
+ */
 module.exports.AssignmentTickets = async (req, res) => {
 	const user = req.session;
 	try {
@@ -38,6 +59,13 @@ module.exports.AssignmentTickets = async (req, res) => {
 	}
 };
 
+/**
+ * This function write comment for specific ticket based on ticketID
+ * @async
+ * @param {*} req 
+ * @param {*} res 
+ * @returns {object} send response containing the object with a message
+ */
 module.exports.writeComment = async (req, res) => {
 	const user = req.session;
 	try {
@@ -50,6 +78,13 @@ module.exports.writeComment = async (req, res) => {
 	}
 };
 
+/**
+ * This function show comments for specific ticket based on ticketID
+ * @async
+ * @param {*} req 
+ * @param {*} res 
+ * @returns {object} send response containing the object with comments of specific ticket
+ */
 module.exports.viewComment = async (req, res) => {
 	const user = req.session;
 	try {

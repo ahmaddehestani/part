@@ -77,7 +77,7 @@ const isExistEmployee = async (email) => {
 };
 
 /**
- * This function checks the existence of the user in the database
+ * This function fill paramaters of query based on parameter
  * @param {object} parameter 
  * @returns {object} An object containing the parameters need for query of database
  */

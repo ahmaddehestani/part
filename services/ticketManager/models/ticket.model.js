@@ -1,5 +1,13 @@
 const executeQuery = require('../../../modules/postgresql-connector');
 
+/**
+ * This function add ticket to database
+ * @async
+ * @param {object} user 
+ * @param {object} req 
+ * @returns {boolean} 
+ * @throws {object} An object containing the message about error
+ */
 module.exports.addTickettoDB = async (user, req) => {
 	let command, params;
 	try {
@@ -21,6 +29,14 @@ module.exports.addTickettoDB = async (user, req) => {
 	}
 };
 
+/**
+ * This function fetch tickets from database
+ * @async
+ * @param {object} user 
+ * @param {object} req 
+ * @returns {object} An object containing the list of tickets
+ * @throws {object} An object containing the message about error
+ */
 module.exports.viewTicketsDB = async (user, req) => {
 	try {
 		const query = checkparameters(user, req);
@@ -32,6 +48,14 @@ module.exports.viewTicketsDB = async (user, req) => {
 	}
 };
 
+/**
+ * This function assign ticket to specific support
+ * @async
+ * @param {object} user 
+ * @param {object} req 
+ * @returns {boolean}
+ * @throws {object} An object containing the message about error
+ */
 module.exports.AssignmentTicketsDB = async (user, req) => {
 	let command, params;
 	command = `SELECT * FROM public.ticket WHERE ticket.assignedto is NULL AND "TicketID"=$1 `;
@@ -49,6 +73,14 @@ module.exports.AssignmentTicketsDB = async (user, req) => {
 	}
 };
 
+/**
+ * This function write comment for ticket
+ * @async
+ * @param {object} user 
+ * @param {object} req 
+ * @returns {boolean}
+ * @throws {object} An object containing the message about error
+ */
 module.exports.writeCommentDB = async (user, req) => {
 	let command, params;
 	state = 'Open';
@@ -69,6 +101,14 @@ module.exports.writeCommentDB = async (user, req) => {
 	}
 };
 
+/**
+ * This function view comment for ticket
+ * @async
+ * @param {object} user 
+ * @param {object} req 
+ * @returns {object} An object containing the comments of specific ticket
+ * @throws {object} An object containing the message about error
+ */
 module.exports.viewCommentDB = async (req) => {
 	try {
 		command = `SELECT * FROM public.comment WHERE comment."TicketID"=$1`;
@@ -81,6 +121,11 @@ module.exports.viewCommentDB = async (req) => {
 };
 
 //Utils
+/**
+ * This function fill paramaters of query based on parameter
+ * @param {object} parameter 
+ * @returns {object} An object containing the parameters need for query of database
+ */
 const checkparameters = (user, req) => {
 	let query = { command, params };
 	if (user.role == 'Employee') {
@@ -97,6 +142,13 @@ const checkparameters = (user, req) => {
 	}
 	return query;
 };
+
+/**
+ * This function filter tickets base on parameters of query
+ * @param {object} tickets 
+ * @param {object} req 
+ * @returns {object} An object containing list of filtered tickets  
+ */
 const filterTicket = (tickets, req) => {
 	let temp = tickets;
 	if (req && req.state) {
@@ -106,11 +158,24 @@ const filterTicket = (tickets, req) => {
 	} else return tickets;
 };
 
+/**
+ * This function filter tickets base on state
+ * @param {object} array 
+ * @param {object} state 
+ * @returns {object} An object containing list of filtered tickets  
+ */
 const filterbyState = (array, state) => {
 	let result = array.filter((value, index, rows) => array[index].state == state);
 	return result;
 };
 
+/**
+ * This function filter tickets base on time
+ * @param {object} array 
+ * @param {object} from 
+ * @param {object} to 
+ * @returns {object} An object containing list of filtered tickets  
+ */
 const filterbyTime = (array, from, to) => {
 	if (from && to) {
 		let result = array.filter(filterbyTimeTowParam);
