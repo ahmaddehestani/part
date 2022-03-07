@@ -1,5 +1,12 @@
 const executeQuery = require('../../../modules/postgresql-connector');
 
+/**
+ * This function add equipment information to database
+ * @async
+ * @param {object} equipment An object containing the equipment information
+ * @returns {boolean} 
+ * @throws {object} An object containing the message about error
+ */
 module.exports.addEquipmenttoDB = async (equipment) => {
 	let command, params;
 	let email = null;
@@ -15,6 +22,13 @@ module.exports.addEquipmenttoDB = async (equipment) => {
 	}
 };
 
+/**
+ * This function asign equipment to specific employee
+ * @async
+ * @param {object} equipment An object containing the equipment information
+ * @returns {boolean} 
+ * @throws {object} An object containing the message about error
+ */
 module.exports.selectOwnertoDB = async (equipment) => {
 	let command, params;
 	try {
@@ -28,6 +42,14 @@ module.exports.selectOwnertoDB = async (equipment) => {
 		throw error.message;
 	}
 };
+
+/**
+ * This function fetch list of equipment based on queryparameters
+ * @async
+ * @param {object} parameter An object containing the queryparameters
+ * @returns {object} list of equipment based on queryparameters
+ * @throws {object} An object containing the message about error
+ */
 module.exports.equipmentsListtoDB = async (parameter) => {
 	try {
 		const query = checkparameters(parameter);
@@ -39,6 +61,12 @@ module.exports.equipmentsListtoDB = async (parameter) => {
 };
 
 //Utils
+/**
+ * This function checks the existence of the user in the database
+ * @async
+ * @param {object} email 
+ * @returns {boolean} 
+ */
 const isExistEmployee = async (email) => {
 	command = `SELECT * FROM public.User WHERE email=$1;`;
 	params = [ email ];
@@ -47,6 +75,12 @@ const isExistEmployee = async (email) => {
 		return true;
 	} else return false;
 };
+
+/**
+ * This function checks the existence of the user in the database
+ * @param {object} parameter 
+ * @returns {object} An object containing the parameters need for query of database
+ */
 const checkparameters = (parameter) => {
 	let query = { command, params };
 	if (!parameter) {

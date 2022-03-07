@@ -19,7 +19,7 @@ module.exports.insertUser = async (user) => {
 };
 
 /**
- * This function fetch user from database bsed on Email
+ * This function fetch user from database based on Email
  * @async
  * @param {string} email Email of user
  * @returns {object} An object containing the requested user information
@@ -37,7 +37,7 @@ module.exports.getUser = async (email) => {
 };
 
 /**
- * This function update user information to
+ * This function update user information to database
  * @async
  * @param {object} user An object containing the user information
  * @returns {boolean} 

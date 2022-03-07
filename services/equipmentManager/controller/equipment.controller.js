@@ -1,6 +1,12 @@
 const { addEquipmenttoDB, selectOwnertoDB, equipmentsListtoDB } = require('../models/equipment.model');
 const sendResponse = require('../../../middleware/sendResponse');
 
+/**
+ * This function add equipment to the database
+ * @param {*} req 
+ * @param {*} res 
+ * @returns {object} send response containing the object with a message
+ */
 module.exports.addEquipment = async (req, res) => {
 	const equipment = req.data;
 	try {
@@ -11,6 +17,12 @@ module.exports.addEquipment = async (req, res) => {
 	}
 };
 
+/**
+ * This function assign equipment to specific employee
+ * @param {*} req 
+ * @param {*} res 
+ * @returns {object} send response containing the object with a message
+ */
 module.exports.selectOwner = async (req, res) => {
 	const equipment = req.data;
 	try {
@@ -21,6 +33,12 @@ module.exports.selectOwner = async (req, res) => {
 	}
 };
 
+/**
+ * This function send list of equipments
+ * @param {*} req 
+ * @param {*} res 
+ * @returns {object} send response containing the object of equipments list
+ */
 module.exports.equipmentsList = async (req, res) => {
 	if (!req.data) req.data = null;
 	try {
