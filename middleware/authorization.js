@@ -1,6 +1,11 @@
 const jwt = require('jsonwebtoken');
 const sendResponse = require('./sendResponse');
 
+/**
+ * This function authorize user based on role 
+ * @param {string} role 
+ * 
+ */
 const authorization = (role) => {
 	return (req, res, next) => {
 		try {

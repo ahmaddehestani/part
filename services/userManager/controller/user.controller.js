@@ -4,6 +4,14 @@ const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 const { JWT_KEY, JWT_EXPIRE_IN, ROLES } = require('../constants');
 
+
+/**
+ * This function hash password of user and insert user object to database
+ * @async
+ * @param {*} req 
+ * @param {*} res 
+ * @returns {object} send response containing the object with a message to user
+ */
 module.exports.signup = async (req, res) => {
 	const user = req.data;
 	const salt = bcrypt.genSaltSync(10);
@@ -18,6 +26,13 @@ module.exports.signup = async (req, res) => {
 	}
 };
 
+/**
+ * This function check credential of user
+ * @async
+ * @param {*} req 
+ * @param {*} res 
+ * @returns {object} send response containing the token
+ */
 module.exports.login = async (req, res) => {
 	try {
 		const { password: inputPasswod, email: inputEmail } = req.data;
@@ -34,6 +49,13 @@ module.exports.login = async (req, res) => {
 	}
 };
 
+/**
+ * This function send list of users based on role
+ * @async
+ * @param {*} req 
+ * @param {*} res 
+ * @returns {object} send response containing the object of users list
+ */
 module.exports.list = async (req, res) => {
 	try {
 		
