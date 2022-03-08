@@ -1,18 +1,19 @@
 const { Pool } = require('pg');
 const bcrypt = require('bcryptjs');
 const { credentials, credentials2 } = require('./config');
+const hashpassword = require("./utiliti")
 
-const CreateDB = async () => {
-	const pool = new Pool(credentials);
-	await pool.query('CREATE DATABASE project');
-	await pool.end();
+const CreateDB = async() => {
+    const pool = new Pool(credentials);
+    await pool.query('CREATE DATABASE project');
+    await pool.end();
 };
 
-const CreateTables = async () => {
-	const pool = new Pool(credentials2);
-	const query = (text, params, callback) => pool.query(text, params, callback);
-	await query(
-		`
+const CreateTables = async() => {
+    const pool = new Pool(credentials2);
+    const query = (text, params, callback) => pool.query(text, params, callback);
+    await query(
+        `
 	do $$
 	begin
 	 CREATE TABLE public.User
@@ -27,10 +28,10 @@ const CreateTables = async () => {
 		end
 		$$
 		`
-	);
+    );
 
-	await query(
-		`
+    await query(
+        `
 	do $$
 	begin
 	CREATE TABLE public.equipment
@@ -47,9 +48,9 @@ const CreateTables = async () => {
 		end
 		$$
 		`
-	);
-	await query(
-		`
+    );
+    await query(
+        `
 	do $$
 	begin
 	CREATE TABLE public.Ticket
@@ -71,10 +72,10 @@ const CreateTables = async () => {
 		end
 		$$
 		`
-	);
+    );
 
-	await query(
-		`
+    await query(
+        `
 	do $$
 	begin
 	CREATE TABLE public.Comment
@@ -94,25 +95,24 @@ const CreateTables = async () => {
 		end
 		$$
 		`
-	);
-	let name = 'Admin';
-	let email = 'Admin@example.com';
-	let role = 'Admin';
-	const salt = bcrypt.genSaltSync(10);
-	const hash = bcrypt.hashSync('123', salt);
-	let password = hash;
+    );
+    let name = 'Admin';
+    let email = 'Admin@example.com';
+    let role = 'Admin';
 
-	await query(`INSERT INTO public.User(name,email,role,password) VALUES($1,$2,$3,$4);`, [
-		name,
-		email,
-		role,
-		password
-	]);
+    let password = hashpassword("123");
 
-	await pool.end();
+    await query(`INSERT INTO public.User(name,email,role,password) VALUES($1,$2,$3,$4);`, [
+        name,
+        email,
+        role,
+        password
+    ]);
+
+    await pool.end();
 };
 
-(async () => {
-	await CreateDB();
-	await CreateTables();
+(async() => {
+    await CreateDB();
+    await CreateTables();
 })();

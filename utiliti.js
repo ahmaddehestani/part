@@ -5,4 +5,6 @@ function hashPassword(password) {
     const hash = bcrypt.hashSync(password, salt)
     return hash;
 }
-module.exports.hashPassword = hashPassword;
+module.exports = {
+    hashPassword
+};
